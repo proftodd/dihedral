@@ -46,5 +46,11 @@ double dot_product(Vector *v1, Vector *v2)
 
 Vector *cross_product(Vector *v1, Vector *v2)
 {
-    return Vector_alloc();
+    if (v1->dimensions != 3 || v2->dimensions != 3) {
+        // error
+    }
+    double i = v1->fields[1] * v2->fields[2] - v1->fields[2] * v2->fields[1];
+    double j = -1.0 * (v1->fields[0] * v2->fields[2] - v1->fields[2] * v2->fields[0]);
+    double k = v1->fields[0] * v2->fields[1] - v1->fields[1] * v2->fields[0];
+    return Vector_new(3, (double []) {i, j, k});
 }

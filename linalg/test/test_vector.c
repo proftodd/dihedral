@@ -8,6 +8,25 @@ void test_dot_product()
     double dp = dot_product(v1, v2);
 
     CU_ASSERT(dp == 32.0);
+
+    Vector_dealloc(v1);
+    Vector_dealloc(v2);
+}
+
+void test_cross_product()
+{
+    Vector *v1 = Vector_new(3, (double []) {1.0, 0.0, 0.0});
+    Vector *v2 = Vector_new(3, (double []) {0.0, 1.0, 0.0});
+    Vector *cp = cross_product(v1, v2);
+
+    CU_ASSERT(cp->dimensions == 3);
+    CU_ASSERT(cp->fields[0] == 0.0);
+    CU_ASSERT(cp->fields[1] == 0.0);
+    CU_ASSERT(cp->fields[2] == 1.0);
+
+    Vector_dealloc(v1);
+    Vector_dealloc(v2);
+    Vector_dealloc(cp);
 }
 
 int main(int argc, char **argv)
@@ -23,7 +42,8 @@ int main(int argc, char **argv)
         return CU_get_error();
     }
 
-    if ((NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product))) {
+    if ((NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product)) ||
+        (NULL == CU_add_test(pSuite, "test of cross_product()", test_cross_product))) {
         CU_cleanup_registry();
         return CU_get_error();
     }
