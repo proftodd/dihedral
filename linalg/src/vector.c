@@ -39,6 +39,19 @@ int Vector_dealloc(Vector *v)
     return !0;
 }
 
+int Vector_equal(Vector *v1, Vector *v2)
+{
+    if (v1->dimensions != v2->dimensions) {
+        return 0;
+    }
+    for (int i = 0; i < v1->dimensions; ++i) {
+        if (fabs(v1->fields[i] - v2->fields[i]) >= EPSILON) {
+            return 0;
+        }
+    }
+    return !0;
+}
+
 double dot_product(Vector *v1, Vector *v2)
 {
     if (v1->dimensions != v2->dimensions) {

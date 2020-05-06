@@ -29,24 +29,33 @@ void dot_product_returns_nan_if_vectors_are_not_same_dimension()
 
 void test_cross_product()
 {
-    Vector *v1 = Vector_new(3, (double []) {1.0, 0.0, 0.0});
-    Vector *v2 = Vector_new(3, (double []) {0.0, 1.0, 0.0});
-    Vector *cp = cross_product(v1, v2);
+    Vector *i = Vector_new(3, (double []) {1.0, 0.0, 0.0});
+    Vector *j = Vector_new(3, (double []) {0.0, 1.0, 0.0});
+    Vector *k = Vector_new(3, (double []) {0.0, 0.0, 1.0});
+    Vector *cp;
 
-    CU_ASSERT(cp->dimensions == 3);
-    CU_ASSERT(cp->fields[0] == 0.0);
-    CU_ASSERT(cp->fields[1] == 0.0);
-    CU_ASSERT(cp->fields[2] == 1.0);
-
-    Vector_dealloc(v1);
-    Vector_dealloc(v2);
+    cp = cross_product(i, j);
+    CU_ASSERT(Vector_equal(k, cp));
     Vector_dealloc(cp);
+
+    cp = cross_product(k, i);
+    CU_ASSERT(Vector_equal(j, cp));
+    Vector_dealloc(cp);
+
+    cp = cross_product(j, k);
+    CU_ASSERT(Vector_equal(i, cp));
+    Vector_dealloc(cp);
+
+    Vector_dealloc(i);
+    Vector_dealloc(j);
+    Vector_dealloc(k);
 }
 
 void cross_product_returns_1d_vector_with_NAN_if_vectors_are_not_both_3d()
 {
     Vector *v1 = Vector_new(3, (double []) {1.0, 0.0, 0.0});
     Vector *v2 = Vector_new(4, (double []) {1.0, 2.0, 3.0, 4.0});
+
     Vector *cp = cross_product(v1, v2);
 
     CU_ASSERT(cp->dimensions == 1);
