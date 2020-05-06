@@ -2,6 +2,17 @@
 #include "CUnit/Basic.h"
 #include "linalg/vector.h"
 
+void test_magnitude()
+{
+    Vector *v = Vector_new(3, (double []) {1.0, 2.0, 2.0});
+
+    double mag = magnitude(v);
+
+    CU_ASSERT_DOUBLE_EQUAL(3.0, mag, EPSILON);
+
+    Vector_dealloc(v);
+}
+
 void test_dot_product()
 {
     Vector *v1 = Vector_new(3, (double []) {1.0, 2.0, 3.0});
@@ -79,11 +90,13 @@ int main(int argc, char **argv)
         return CU_get_error();
     }
 
-    if ((NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product)) ||
+    if (
+        (NULL == CU_add_test(pSuite, "test vector magnitude", test_magnitude)) ||
+        (NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product)) ||
         (NULL == CU_add_test(pSuite, "dot product returns NAN if vectors are not same dimension", dot_product_returns_nan_if_vectors_are_not_same_dimension)) ||
         (NULL == CU_add_test(pSuite, "test of cross_product()", test_cross_product)) ||
         (NULL == CU_add_test(pSuite, "cross product returns 1d vector with NAN if vectors are not both 3d", cross_product_returns_1d_vector_with_NAN_if_vectors_are_not_both_3d))
-        ) {
+    ) {
         CU_cleanup_registry();
         return CU_get_error();
     }

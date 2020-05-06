@@ -52,6 +52,15 @@ int Vector_equal(Vector *v1, Vector *v2)
     return !0;
 }
 
+double magnitude(Vector *v)
+{
+    double squared_distance = 0.0;
+    for (int i = 0; i < v->dimensions; ++i) {
+        squared_distance += v->fields[i] * v->fields[i];
+    }
+    return sqrt(squared_distance);
+}
+
 double dot_product(Vector *v1, Vector *v2)
 {
     if (v1->dimensions != v2->dimensions) {
