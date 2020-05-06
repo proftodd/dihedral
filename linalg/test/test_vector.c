@@ -43,6 +43,20 @@ void test_cross_product()
     Vector_dealloc(cp);
 }
 
+void cross_product_returns_1d_vector_with_NAN_if_vectors_are_not_both_3d()
+{
+    Vector *v1 = Vector_new(3, (double []) {1.0, 0.0, 0.0});
+    Vector *v2 = Vector_new(4, (double []) {1.0, 2.0, 3.0, 4.0});
+    Vector *cp = cross_product(v1, v2);
+
+    CU_ASSERT(cp->dimensions == 1);
+    CU_ASSERT(isnan(cp->fields[0]));
+
+    Vector_dealloc(v1);
+    Vector_dealloc(v2);
+    Vector_dealloc(cp);
+}
+
 int main(int argc, char **argv)
 {
     CU_pSuite pSuite = NULL;
@@ -58,7 +72,9 @@ int main(int argc, char **argv)
 
     if ((NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product)) ||
         (NULL == CU_add_test(pSuite, "dot product returns NAN if vectors are not same dimension", dot_product_returns_nan_if_vectors_are_not_same_dimension)) ||
-        (NULL == CU_add_test(pSuite, "test of cross_product()", test_cross_product))) {
+        (NULL == CU_add_test(pSuite, "test of cross_product()", test_cross_product)) ||
+        (NULL == CU_add_test(pSuite, "cross product returns 1d vector with NAN if vectors are not both 3d", cross_product_returns_1d_vector_with_NAN_if_vectors_are_not_both_3d))
+        ) {
         CU_cleanup_registry();
         return CU_get_error();
     }

@@ -54,7 +54,7 @@ double dot_product(Vector *v1, Vector *v2)
 Vector *cross_product(Vector *v1, Vector *v2)
 {
     if (v1->dimensions != 3 || v2->dimensions != 3) {
-        // error
+        return Vector_new(1, (double []) {NAN});
     }
     double i = v1->fields[1] * v2->fields[2] - v1->fields[2] * v2->fields[1];
     double j = -1.0 * (v1->fields[0] * v2->fields[2] - v1->fields[2] * v2->fields[0]);
