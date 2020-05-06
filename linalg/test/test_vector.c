@@ -1,3 +1,4 @@
+#include <math.h>
 #include "CUnit/Basic.h"
 #include "linalg/vector.h"
 
@@ -8,6 +9,19 @@ void test_dot_product()
     double dp = dot_product(v1, v2);
 
     CU_ASSERT(dp == 32.0);
+
+    Vector_dealloc(v1);
+    Vector_dealloc(v2);
+}
+
+void dot_product_returns_nan_if_vectors_are_not_same_dimension()
+{
+    Vector *v1 = Vector_new(3, (double []) {1.0, 2.0, 3.0});
+    Vector *v2 = Vector_new(2, (double []) {1.0, 20});
+
+    double dp = dot_product(v1, v2);
+
+    CU_ASSERT(isnan(dp));
 
     Vector_dealloc(v1);
     Vector_dealloc(v2);
@@ -43,6 +57,7 @@ int main(int argc, char **argv)
     }
 
     if ((NULL == CU_add_test(pSuite, "test of dot_product()", test_dot_product)) ||
+        (NULL == CU_add_test(pSuite, "dot product returns NAN if vectors are not same dimension", dot_product_returns_nan_if_vectors_are_not_same_dimension)) ||
         (NULL == CU_add_test(pSuite, "test of cross_product()", test_cross_product))) {
         CU_cleanup_registry();
         return CU_get_error();

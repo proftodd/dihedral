@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include "linalg/vector.h"
 
@@ -37,6 +38,9 @@ int Vector_dealloc(Vector *v)
 
 double dot_product(Vector *v1, Vector *v2)
 {
+    if (v1->dimensions != v2->dimensions) {
+        return NAN;
+    }
     double dp = 0;
     for (int i = 0; i < v1->dimensions; ++i) {
         dp += v1->fields[i] * v2->fields[i];
