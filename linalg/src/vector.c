@@ -5,24 +5,27 @@
 Vector *Vector_alloc()
 {
     Vector *my_vector = malloc(sizeof(Vector));
-    if (!my_vector) {
-        // throw an error here
+    if (my_vector) {
+        my_vector->dimensions = 0;
+        my_vector->fields = NULL;
     }
-    my_vector->dimensions = 0;
-    my_vector->fields = NULL;
     return my_vector;
 }
 
 Vector *Vector_new(unsigned short dimensions, double *fields)
 {
     Vector *my_vector = Vector_alloc();
-    my_vector->dimensions = dimensions;
-    my_vector->fields = malloc(sizeof(double) * dimensions);
-    if (!(my_vector->fields)) {
-        // throw an error here
-    }
-    for (int i = 0; i < dimensions; ++i) {
-        my_vector->fields[i] = fields[i];
+    if (my_vector) {
+        my_vector->fields = malloc(sizeof(double) * dimensions);
+        if (my_vector->fields) {
+            my_vector->dimensions = dimensions;
+            for (int i = 0; i < dimensions; ++i) {
+                my_vector->fields[i] = fields[i];
+            }
+        } else {
+            free(my_vector);
+            my_vector = NULL;
+        }
     }
     return my_vector;
 }
