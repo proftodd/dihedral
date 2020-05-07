@@ -5,7 +5,10 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
 #include "dihedral/point.h"
+
+const Point **read_points(FILE *pdb_file, int *p_count);
 
 double angle_between(const Point *start, const Point *vertex, const Point *end);
 

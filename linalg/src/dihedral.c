@@ -1,7 +1,40 @@
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "dihedral.h"
 #include "dihedral/point.h"
 #include "linalg/vector.h"
+
+#define LINE_LENGTH 80
+#define MAX_POINTS 10000
+
+const Point **read_points(FILE *pdb_file, int *p_count)
+{
+    char line[LINE_LENGTH + 1];
+    Point **point_list = malloc(MAX_POINTS * sizeof(Point));
+    int point_count = 0;
+    int line_len;
+    char next;
+    while (fgets(line, sizeof(line), pdb_file)) {
+        line_len = strlen(line);
+        if (line[line_len - 1] == '\r' || line[line_len - 1] == '\n') {
+            line[line_len - 1] = '\0';
+        }
+        next = getc(pdb_file);
+        if (!(next == '\r' || next == '\n')) {
+            ungetc(next, pdb_file);
+        }
+
+        if (strncmp(line, "ATOM", 4) == 0 && point_count < MAX_POINTS) {
+            Point *new_point = Point_new_fromString(line);
+            point_list[point_count] = new_point;
+            ++point_count;
+        }
+    }
+    *p_count = point_count;
+    return (const Point **) point_list;
+}
 
 double angle_between(const Point *start, const Point *vertex, const Point *end)
 {
