@@ -9,12 +9,12 @@ extern "C" {
 #define EPSILON 1.0E-6
 
 typedef struct Vector {
-    unsigned short dimensions;
+    int dimensions;
     double *fields;
 } Vector;
 
 Vector *Vector_alloc();
-Vector *Vector_new(unsigned short dimensions, double *fields);
+Vector *Vector_new(const int dimensions, ...);
 int Vector_dealloc(Vector *v);
 
 int Vector_equal(Vector *v1, Vector *v2);

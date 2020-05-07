@@ -8,7 +8,7 @@ void test_to_vector()
     Point *p2 = Point_new(1.0, 1.0, 1.0);
 
     Vector *v = to_vector(p1, p2);
-    Vector *expected = Vector_new(3, (double []) {1.0, 1.0, 1.0});
+    Vector *expected = Vector_new(3, 1.0, 1.0, 1.0);
     CU_ASSERT(Vector_equal(expected, v));
 
     Point_dealloc(p1);

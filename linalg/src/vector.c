@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include "linalg/vector.h"
 
@@ -12,16 +13,20 @@ Vector *Vector_alloc()
     return my_vector;
 }
 
-Vector *Vector_new(unsigned short dimensions, double *fields)
+Vector *Vector_new(int dimensions, ...)
 {
     Vector *my_vector = Vector_alloc();
     if (my_vector) {
         my_vector->fields = malloc(sizeof(double) * dimensions);
         if (my_vector->fields) {
             my_vector->dimensions = dimensions;
+            va_list args;
+            va_start(args, dimensions);
             for (int i = 0; i < dimensions; ++i) {
-                my_vector->fields[i] = fields[i];
+                double value = va_arg(args, double);
+                my_vector->fields[i] = value;
             }
+            va_end(args);
         } else {
             free(my_vector);
             my_vector = NULL;
@@ -76,10 +81,10 @@ double dot_product(Vector *v1, Vector *v2)
 Vector *cross_product(Vector *v1, Vector *v2)
 {
     if (v1->dimensions != 3 || v2->dimensions != 3) {
-        return Vector_new(1, (double []) {NAN});
+        return Vector_new(1, NAN);
     }
     double i = v1->fields[1] * v2->fields[2] - v1->fields[2] * v2->fields[1];
     double j = -1.0 * (v1->fields[0] * v2->fields[2] - v1->fields[2] * v2->fields[0]);
     double k = v1->fields[0] * v2->fields[1] - v1->fields[1] * v2->fields[0];
-    return Vector_new(3, (double []) {i, j, k});
+    return Vector_new(3, i, j, k);
 }

@@ -4,7 +4,7 @@
 
 void test_magnitude()
 {
-    Vector *v = Vector_new(3, (double []) {1.0, 2.0, 2.0});
+    Vector *v = Vector_new(3, 1.0, 2.0, 2.0);
 
     double mag = magnitude(v);
 
@@ -15,8 +15,8 @@ void test_magnitude()
 
 void test_dot_product()
 {
-    Vector *v1 = Vector_new(3, (double []) {1.0, 2.0, 3.0});
-    Vector *v2 = Vector_new(3, (double []) {4.0, 5.0, 6.0});
+    Vector *v1 = Vector_new(3, 1.0, 2.0, 3.0);
+    Vector *v2 = Vector_new(3, 4.0, 5.0, 6.0);
     double dp = dot_product(v1, v2);
 
     CU_ASSERT(dp == 32.0);
@@ -27,8 +27,8 @@ void test_dot_product()
 
 void dot_product_returns_nan_if_vectors_are_not_same_dimension()
 {
-    Vector *v1 = Vector_new(3, (double []) {1.0, 2.0, 3.0});
-    Vector *v2 = Vector_new(2, (double []) {1.0, 20});
+    Vector *v1 = Vector_new(3, 1.0, 2.0, 3.0);
+    Vector *v2 = Vector_new(2, 1.0, 20);
 
     double dp = dot_product(v1, v2);
 
@@ -40,9 +40,9 @@ void dot_product_returns_nan_if_vectors_are_not_same_dimension()
 
 void test_cross_product()
 {
-    Vector *i = Vector_new(3, (double []) {1.0, 0.0, 0.0});
-    Vector *j = Vector_new(3, (double []) {0.0, 1.0, 0.0});
-    Vector *k = Vector_new(3, (double []) {0.0, 0.0, 1.0});
+    Vector *i = Vector_new(3, 1.0, 0.0, 0.0);
+    Vector *j = Vector_new(3, 0.0, 1.0, 0.0);
+    Vector *k = Vector_new(3, 0.0, 0.0, 1.0);
     Vector *cp;
 
     cp = cross_product(i, j);
@@ -64,8 +64,8 @@ void test_cross_product()
 
 void cross_product_returns_1d_vector_with_NAN_if_vectors_are_not_both_3d()
 {
-    Vector *v1 = Vector_new(3, (double []) {1.0, 0.0, 0.0});
-    Vector *v2 = Vector_new(4, (double []) {1.0, 2.0, 3.0, 4.0});
+    Vector *v1 = Vector_new(3, 1.0, 0.0, 0.0);
+    Vector *v2 = Vector_new(4, 1.0, 2.0, 3.0, 4.0);
 
     Vector *cp = cross_product(v1, v2);
 

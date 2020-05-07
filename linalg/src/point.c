@@ -24,5 +24,5 @@ Vector *to_vector(const Point *from, const Point *to)
     double x = to->x - from->x;
     double y = to->y - from->y;
     double z = to->z - from->z;
-    return Vector_new(3, (double []) {x, y, z});
+    return Vector_new(3, x, y, z);
 }
