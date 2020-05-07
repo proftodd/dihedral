@@ -44,7 +44,7 @@ int Vector_dealloc(Vector *v)
     return !0;
 }
 
-int Vector_equal(Vector *v1, Vector *v2)
+int Vector_equal(const Vector *v1, const Vector *v2)
 {
     if (v1->dimensions != v2->dimensions) {
         return 0;
@@ -57,7 +57,7 @@ int Vector_equal(Vector *v1, Vector *v2)
     return !0;
 }
 
-double magnitude(Vector *v)
+double magnitude(const Vector *v)
 {
     double squared_distance = 0.0;
     for (int i = 0; i < v->dimensions; ++i) {
@@ -66,7 +66,7 @@ double magnitude(Vector *v)
     return sqrt(squared_distance);
 }
 
-double dot_product(Vector *v1, Vector *v2)
+double dot_product(const Vector *v1, const Vector *v2)
 {
     if (v1->dimensions != v2->dimensions) {
         return NAN;
@@ -78,7 +78,7 @@ double dot_product(Vector *v1, Vector *v2)
     return dp;
 }
 
-Vector *cross_product(Vector *v1, Vector *v2)
+Vector *cross_product(const Vector *v1, const Vector *v2)
 {
     if (v1->dimensions != 3 || v2->dimensions != 3) {
         return Vector_new(1, NAN);

@@ -26,5 +26,24 @@ double angle_between(const Point *start, const Point *vertex, const Point *end)
 
 double dihedral_angle(const Point *start, const Point *intersection_1, const Point *intersection_2, const Point *end)
 {
-    return 0.0;
+    const Vector *b1 = to_vector(start, intersection_1);
+    const Vector *b2 = to_vector(intersection_1, intersection_2);
+    const Vector *b3 = to_vector(intersection_2, end);
+
+    const Vector *cp12 = cross_product(b1, b2);
+    const Vector *cp23 = cross_product(b2, b3);
+    const Vector *cp1223 = cross_product(cp12, cp23);
+
+    double numerator = dot_product(b2, cp1223);
+    double denominator = magnitude(b2) * dot_product(cp12, cp23);
+    double angle = atan2(numerator, denominator);
+
+    Vector_dealloc((Vector *) b1);
+    Vector_dealloc((Vector *) b2);
+    Vector_dealloc((Vector *) b3);
+    Vector_dealloc((Vector *) cp12);
+    Vector_dealloc((Vector *) cp23);
+    Vector_dealloc((Vector *) cp1223);
+
+    return angle;
 }

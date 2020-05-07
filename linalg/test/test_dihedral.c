@@ -36,18 +36,20 @@ void test_dihedral_angle()
     Point *start = Point_new(1.0, 0.0, 0.0);
     Point *intersection_1 = Point_new(0.0, 0.0, 0.0);
     Point *intersection_2 = Point_new(0.0, 1.0, 0.0);
-    Point *end = Point_new(0.0, 1.0, 1.0);
+    Point *end1 = Point_new(0.0, 1.0, 1.0);
+    Point *end2 = Point_new(0.0, 1.0, -1.0);
+    Point *end3 = Point_new(1.0, 1.0, 1.0);
 
-    double dihedral = dihedral_angle(start, intersection_1, intersection_2, end);
-
-    // TODO: This is the correct assertion
-    // CU_ASSERT_DOUBLE_EQUAL(M_PI_2, dihedral, EPSILON);
-    CU_ASSERT_DOUBLE_EQUAL(0.0, dihedral, EPSILON);
+    CU_ASSERT_DOUBLE_EQUAL(-M_PI_2, dihedral_angle(start, intersection_1, intersection_2, end1), EPSILON);
+    CU_ASSERT_DOUBLE_EQUAL( M_PI_2, dihedral_angle(start, intersection_1, intersection_2, end2), EPSILON);
+    CU_ASSERT_DOUBLE_EQUAL(-M_PI_4, dihedral_angle(start, intersection_1, intersection_2, end3), EPSILON);
 
     Point_dealloc(start);
     Point_dealloc(intersection_1);
     Point_dealloc(intersection_2);
-    Point_dealloc(end);
+    Point_dealloc(end1);
+    Point_dealloc(end2);
+    Point_dealloc(end3);
 }
 
 int main(int argc, char **argv)
