@@ -2,7 +2,7 @@
 #include "linalg/vector.h"
 #include "dihedral/point.h"
 
-Point *Point_new(double x, double y, double z)
+Point *Point_new(const double x, const double y, const double z)
 {
     Point *my_point;
     if ((my_point = malloc(sizeof(Point)))) {
