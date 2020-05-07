@@ -8,9 +8,9 @@ extern "C" {
 #include "linalg/vector.h"
 
 typedef struct Point {
-    double x;
-    double y;
-    double z;
+    const double x;
+    const double y;
+    const double z;
 } Point;
 
 Point *Point_new(const double x, const double y, const double z);

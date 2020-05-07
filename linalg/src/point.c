@@ -6,13 +6,13 @@
 
 Point *Point_new(const double x, const double y, const double z)
 {
-    Point *my_point;
+    void *my_point;
     if ((my_point = malloc(sizeof(Point)))) {
-        my_point->x = x;
-        my_point->y = y;
-        my_point->z = z;
+        *(double *) &((Point *) my_point)->x = x;
+        *(double *) &((Point *) my_point)->y = y;
+        *(double *) &((Point *) my_point)->z = z;
     }
-    return my_point;
+    return (Point *) my_point;
 }
 
 Point *Point_new_fromString(const char *string)
