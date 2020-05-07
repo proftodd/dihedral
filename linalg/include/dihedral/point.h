@@ -14,7 +14,10 @@ typedef struct Point {
 } Point;
 
 Point *Point_new(const double x, const double y, const double z);
+Point *Point_new_fromString(const char *string);
 int Point_dealloc(Point *p);
+
+int Point_equal(const Point *p1, const Point *p2);
 
 Vector *to_vector(const Point *from, const Point *to);
 

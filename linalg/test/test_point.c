@@ -17,6 +17,18 @@ void test_to_vector()
     Vector_dealloc(expected);
 }
 
+void test_from_string()
+{
+    const char *line = "ATOM    297  CG1 ILE A  31      51.343 -12.820  76.588  1.00 29.30           C  ";
+    Point *p = Point_new_fromString(line);
+    Point *expected = Point_new(51.343, -12.82, 76.588);
+
+    CU_ASSERT(Point_equal(p, expected));
+
+    Point_dealloc(p);
+    Point_dealloc(expected);
+}
+
 int main(int argc, char **argv)
 {
     CU_pSuite pSuite = NULL;
@@ -31,7 +43,8 @@ int main(int argc, char **argv)
     }
 
     if (
-        (CU_add_test(pSuite, "test points to vector", test_to_vector) == NULL)
+        (CU_add_test(pSuite, "test points to vector", test_to_vector) == NULL) ||
+        (CU_add_test(pSuite, "test from string", test_from_string) == NULL)
     ) {
         CU_cleanup_registry();
         return CU_get_error();
