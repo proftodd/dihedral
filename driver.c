@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "dihedral.h"
+#include "pdb.h"
 #include "dihedral/amino_acid.h"
 
 int main(int argc, char **argv)
@@ -22,6 +22,13 @@ int main(int argc, char **argv)
 
     printf("%s\n", "Done!");
     printf("Read %d amino acids from %s\n", aa_count, filename);
+    AminoAcid *aa;
+    Point *p;
+    for (int i = 0; i < aa_count; ++i) {
+        aa = (AminoAcid *) aa_list[i];
+        p = aa->n;
+        printf("%c %3d N:(%8.3f,%8.3f,%8.3f)\n", aa->chain, aa->residue, p->x, p->y, p->z);
+    }
 
     return 0;
 }
