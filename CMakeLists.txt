@@ -8,3 +8,6 @@ add_compile_options("-Wall")
 include_directories(/usr/local/include)
 
 add_subdirectory(linalg)
+
+add_executable(driver driver.c)
+target_link_libraries(driver linalg)

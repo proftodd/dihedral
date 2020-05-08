@@ -6,9 +6,10 @@ extern "C" {
 #endif
 
 #include <stdio.h>
+#include "dihedral/amino_acid.h"
 #include "dihedral/point.h"
 
-const Point **read_points(FILE *pdb_file, int *p_count);
+const AminoAcid **read_aas(FILE *pdb_file, int *aa_count);
 
 double angle_between(const Point *start, const Point *vertex, const Point *end);
 
