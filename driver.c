@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "pdb.h"
 #include "dihedral/amino_acid.h"
 
@@ -17,18 +18,47 @@ int main(int argc, char **argv)
     }
 
     int aa_count = 0;
-    const AminoAcid **aa_list = read_aas(file, &aa_count);
+    const AminoAcid **aa_array = read_aas(file, &aa_count);
     fclose(file);
 
     printf("%s\n", "Done!");
     printf("Read %d amino acids from %s\n", aa_count, filename);
     AminoAcid *aa;
-    Point *p;
+    Point *n, *ca, *c, *o;
     for (int i = 0; i < aa_count; ++i) {
-        aa = (AminoAcid *) aa_list[i];
-        p = aa->n;
-        printf("%c %3d N:(%8.3f,%8.3f,%8.3f)\n", aa->chain, aa->residue, p->x, p->y, p->z);
+        aa = (AminoAcid *) aa_array[i];
+        n = aa->n;
+        ca = aa->ca;
+        c = aa->c;
+        o = aa->o;
+        printf("%c %3d ", aa->chain, aa->residue);
+        if (n) {
+            printf("N:(%8.3f,%8.3f,%8.3f), ", n->x, n->y, n->z);
+        } else {
+            printf("%s", "N: NA                         , ");
+        }
+        if (ca) {
+            printf("CA:(%8.3f,%8.3f,%8.3f), ", ca->x, ca->y, ca->z);
+        } else {
+            printf("%s", "CA: NA                         , ");
+        }
+        if (c) {
+            printf("C:(%8.3f,%8.3f,%8.3f), ", c->x, c->y, c->z);
+        } else {
+            printf("%s", "C: NA                         , ");
+        }
+        if (o) {
+            printf("O:(%8.3f,%8.3f,%8.3f)\n", o->x, o->y, o->z);
+        } else {
+            printf("%s", "O: NA                         \n");
+        }
     }
+
+    for (int i = 0; i < aa_count; ++i) {
+        aa = (AminoAcid *) aa_array[i];
+        AminoAcid_dealloc(aa);
+    }
+    free(aa_array);
 
     return 0;
 }

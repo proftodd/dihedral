@@ -18,6 +18,10 @@ AminoAcid *AminoAcid_new(const char chain, const int residue, const Point *n, co
 
 int AminoAcid_dealloc(AminoAcid *aa)
 {
+    Point_dealloc(aa->n);
+    Point_dealloc(aa->ca);
+    Point_dealloc(aa->c);
+    Point_dealloc(aa->o);
     free(aa);
     return !0;
 }

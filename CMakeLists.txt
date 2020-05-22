@@ -3,7 +3,7 @@ project(dihedral LANGUAGES C VERSION 0.0.1)
 
 enable_testing()
 
-add_compile_options("-Wall")
+add_compile_options("-Wall" "-g")
 
 include_directories(/usr/local/include)
 

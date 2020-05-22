@@ -65,3 +65,6 @@ CTestTestfile.cmake
 DartConfiguration.tcl
 _deps
 build
+
+# IDE
+.vscode
