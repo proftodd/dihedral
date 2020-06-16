@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pdb.h"
+#include "dihedral.h"
 #include "dihedral/amino_acid.h"
+#include "pdb.h"
 
 int main(int argc, char **argv)
 {
@@ -22,41 +23,41 @@ int main(int argc, char **argv)
     fclose(file);
 
     printf("%s\n", "Done!");
-    printf("Read %d amino acids from %s\n", aa_count, filename);
-    AminoAcid *aa;
-    Point *n, *ca, *c, *o;
-    for (int i = 0; i < aa_count; ++i) {
-        aa = (AminoAcid *) aa_array[i];
-        n = aa->n;
-        ca = aa->ca;
-        c = aa->c;
-        o = aa->o;
-        printf("%c %3d ", aa->chain, aa->residue);
-        if (n) {
-            printf("N:(%8.3f,%8.3f,%8.3f), ", n->x, n->y, n->z);
-        } else {
-            printf("%s", "N: NA                         , ");
-        }
-        if (ca) {
-            printf("CA:(%8.3f,%8.3f,%8.3f), ", ca->x, ca->y, ca->z);
-        } else {
-            printf("%s", "CA: NA                         , ");
-        }
-        if (c) {
-            printf("C:(%8.3f,%8.3f,%8.3f), ", c->x, c->y, c->z);
-        } else {
-            printf("%s", "C: NA                         , ");
-        }
-        if (o) {
-            printf("O:(%8.3f,%8.3f,%8.3f)\n", o->x, o->y, o->z);
-        } else {
-            printf("%s", "O: NA                         \n");
+    printf("Read %d amino acids from %s\n\n", aa_count, filename);
+
+    AminoAcid *curr_aa, *prev_aa;
+    double omega, phi, psi;
+
+    printf("%s\n", "C   n    omega      phi      psi");
+    for (int i = 1; i < aa_count; ++i) {
+        prev_aa = (AminoAcid *) aa_array[i - 1];
+        curr_aa = (AminoAcid *) aa_array[i];
+        if (prev_aa->chain == curr_aa->chain && prev_aa->residue == curr_aa->residue - 1) {
+            omega = dihedral_angle(
+                prev_aa->ca,
+                prev_aa->c,
+                curr_aa->n,
+                curr_aa->ca
+            );
+            phi = dihedral_angle(
+                prev_aa->c,
+                curr_aa->n,
+                curr_aa->ca,
+                curr_aa->c
+            );
+            psi = dihedral_angle(
+                prev_aa->n,
+                prev_aa->ca,
+                prev_aa->c,
+                curr_aa->n
+            );
+            printf("%c %3d %8.3f %8.3f %8.3f\n", curr_aa->chain, curr_aa->residue, omega, phi, psi);
         }
     }
 
     for (int i = 0; i < aa_count; ++i) {
-        aa = (AminoAcid *) aa_array[i];
-        AminoAcid_dealloc(aa);
+        curr_aa = (AminoAcid *) aa_array[i];
+        AminoAcid_dealloc(curr_aa);
     }
     free(aa_array);
 
